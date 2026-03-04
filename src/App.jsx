@@ -47,13 +47,35 @@ function App() {
   ]
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/MAWOW1000', icon: '→' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/duc-pham-doan-3193a629b/', icon: '→' },
-    { name: 'LeetCode', url: 'https://leetcode.com/u/MAWOW1000/', icon: '→' },
-    { name: 'Email', url: 'mailto:duc22092003@gmail.com', icon: '→' }
+    { name: 'GitHub', url: 'https://github.com/MAWOW1000' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/duc-pham-doan-3193a629b/' },
+    { name: 'LeetCode', url: 'https://leetcode.com/u/MAWOW1000/' },
+    { name: 'Email', url: 'mailto:duc22092003@gmail.com' }
   ]
 
-  const marqueeText = "BACKEND DEVELOPER • REACT ENTHUSIAST • AI EXPLORER • PROBLEM SOLVER • "
+  const marqueeText = "🔥 Enjoy free shipping with every hire. 🔥"
+  const merchantsItems = [
+    { type: 'label', text: 'For Devs' },
+    { type: 'avatar', letter: 'D', variant: 'a' },
+    { type: 'label', text: 'By Devs' },
+    { type: 'avatar', letter: 'B', variant: 'b' },
+    { type: 'label', text: 'For Devs' },
+    { type: 'avatar', letter: 'C', variant: 'c' },
+    { type: 'label', text: 'By Devs' },
+    { type: 'avatar', letter: 'A', variant: 'd' },
+    { type: 'label', text: 'For Devs' },
+    { type: 'avatar', letter: 'E', variant: 'e' },
+    { type: 'label', text: 'By Devs' },
+    { type: 'avatar', letter: 'D', variant: 'a' },
+    { type: 'label', text: 'For Devs' },
+    { type: 'avatar', letter: 'B', variant: 'b' },
+    { type: 'label', text: 'By Devs' },
+    { type: 'avatar', letter: 'C', variant: 'c' },
+    { type: 'label', text: 'For Devs' },
+    { type: 'avatar', letter: 'A', variant: 'd' },
+    { type: 'label', text: 'By Devs' },
+    { type: 'avatar', letter: 'E', variant: 'e' },
+  ]
 
   // Initialize Lenis smooth scroll
   useGSAP()
@@ -68,10 +90,10 @@ function App() {
 
   return (
     <>
-      {/* Marquee Banner */}
+      {/* Announcement Banner */}
       <div className="marquee-banner">
         <div className="marquee-content">
-          {[...Array(10)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <span key={i}>{marqueeText}</span>
           ))}
         </div>
@@ -89,62 +111,79 @@ function App() {
             <li><a href="#projects">Work</a></li>
             <li><a href="#experience">Experience</a></li>
           </ul>
+          <div className="navbar-cta">
+            <a href="#contact" className="navbar-cart">
+              Hire Me ↗
+            </a>
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero / Collection Header */}
       <section className="hero">
         <div className="container">
           <div className="hero-content">
             <div className="hero-text">
+              <p className="hero-collection-label">Portfolio — 2026 Collection</p>
               <h1>
-                <span>DUC PHAM</span>
+                <span className="line"><span className="line-inner">DUC</span></span>
+                <span className="line"><span className="line-inner">PHAM</span></span>
               </h1>
-              <p className="subtitle">Backend Developer @ Kozocom Vietnam</p>
-              <p className="description">
-                Passionate about problem-solving and pioneering first-principle thinking. 
-                Currently exploring ML, Gen AI, and LLMs with a mission to revolutionize how the world works with AI.
-              </p>
+            </div>
+            <div className="hero-meta">
+              <div className="hero-meta-left">
+                <p className="subtitle">Backend Developer @ Kozocom Vietnam</p>
+                <p className="count">4 Projects · 2 Roles</p>
+              </div>
               <div className="hero-buttons">
-                <a href="#projects" className="btn btn-primary">
-                  View Projects
-                </a>
-                <a href="#contact" className="btn btn-outline">
-                  Get in Touch
-                </a>
+                <a href="#projects" className="btn btn-primary">View Work</a>
+                <a href="#contact" className="btn btn-outline">Get in Touch</a>
               </div>
             </div>
           </div>
         </div>
-        <div className="scroll-indicator">
-          Scroll to Explore
-        </div>
+        <div className="scroll-indicator">Scroll</div>
       </section>
+
+      {/* Divider strip: "FOR DEVS / BY DEVS" */}
+      <div className="merchants-strip">
+        <div className="merchants-track">
+          {[...merchantsItems, ...merchantsItems].map((item, i) => (
+            <div key={i} className="merchants-item">
+              {item.type === 'label' ? (
+                <span className="merchants-label">{item.text}</span>
+              ) : (
+                <div className={`merchants-avatar merchants-avatar--${item.variant}`}>
+                  <div className="merchants-avatar-inner">{item.letter}</div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* About Section */}
       <section id="about" className="about">
-        <div className="container">
-          <div className="about-grid">
-            <div className="about-card">
-              <div className="icon">🚀</div>
-              <h3>Currently Building</h3>
-              <p>JavaScript, TypeScript, AWS, and cloud-native solutions</p>
-            </div>
-            <div className="about-card">
-              <div className="icon">🔬</div>
-              <h3>Exploring</h3>
-              <p>Machine Learning, Generative AI, and Large Language Models</p>
-            </div>
-            <div className="about-card">
-              <div className="icon">📍</div>
-              <h3>Location</h3>
-              <p>Da Nang City, Vietnam</p>
-            </div>
-            <div className="about-card">
-              <div className="icon">🗣️</div>
-              <h3>Languages</h3>
-              <p>Vietnamese (Native), English (TOEIC 755)</p>
-            </div>
+        <div className="about-grid">
+          <div className="about-card">
+            <span className="icon">⚡</span>
+            <h3>Currently Building</h3>
+            <p>JavaScript, TypeScript, AWS & cloud-native solutions</p>
+          </div>
+          <div className="about-card">
+            <span className="icon">🧠</span>
+            <h3>Exploring</h3>
+            <p>Machine Learning, Generative AI & LLMs</p>
+          </div>
+          <div className="about-card">
+            <span className="icon">📍</span>
+            <h3>Location</h3>
+            <p>Da Nang City, Vietnam</p>
+          </div>
+          <div className="about-card">
+            <span className="icon">🗣️</span>
+            <h3>Languages</h3>
+            <p>Vietnamese (Native) · English TOEIC 755</p>
           </div>
         </div>
       </section>
@@ -171,23 +210,30 @@ function App() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects / Collection Grid */}
       <section id="projects" className="projects">
         <div className="container">
-          <div className="section-title">
-            <h2>Featured Work</h2>
-            <p>Selected projects I've built</p>
+          <div className="projects-header">
+            <div>
+              <h2>Featured Work</h2>
+              <p>Selected projects I've built</p>
+            </div>
+            <span className="projects-count">{projects.length} Projects</span>
           </div>
-          <div className="projects-grid">
-            {projects.map((project) => (
-              <div key={project.title} className="project-card">
+        </div>
+
+        <div className="projects-grid">
+          {projects.map((project, idx) => (
+            <div key={project.title} className="project-card">
+              <div className={`project-image project-image--${idx % 4}`}>
+                <div className="project-image-inner" />
+                <span className="project-image-label">{project.role}</span>
+              </div>
+              <div className="project-body">
                 <div className="project-header">
                   <h3>{project.title}</h3>
-                  <span className="project-role">{project.role}</span>
                 </div>
-                <p className="project-company">
-                  {project.company} • {project.duration}
-                </p>
+                <p className="project-company">{project.company} · {project.duration}</p>
                 <p className="project-description">{project.description}</p>
                 <div className="project-tech">
                   {project.tech.map((tech) => (
@@ -195,7 +241,18 @@ function App() {
                   ))}
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
+
+          {/* Lifestyle / editorial card */}
+          <div className="project-card project-card--lifestyle">
+            <div className="lifestyle-content">
+              <p className="lifestyle-eyebrow">Open to opportunities</p>
+              <h3 className="lifestyle-heading">Let's build something great together</h3>
+              <a href="#contact" className="lifestyle-cta">
+                Say Hello ↗
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -222,7 +279,7 @@ function App() {
             <div className="experience-item">
               <div className="experience-date">Oct 2024 – Jun 2025</div>
               <div className="experience-content">
-                <h3>Team Leader - GymViet</h3>
+                <h3>Team Leader — GymViet</h3>
                 <p className="company">Duy Tan University</p>
                 <p>
                   Led development of AI-powered fitness platform. Designed microservices architecture
@@ -231,36 +288,65 @@ function App() {
               </div>
             </div>
           </div>
-          
-          <div className="section-title" style={{ marginTop: '4rem' }}>
-            <h3>Achievements</h3>
-          </div>
+
           <div className="certifications">
-            <span className="certification-badge">🎓 GPA 3.72/4.00</span>
+            <span className="certification-badge">🎓 GPA 3.72 / 4.00</span>
             <span className="certification-badge">🏆 TOEIC 755</span>
             <span className="certification-badge">🥇 University Research Award</span>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="contact" className="footer">
+      {/* Contact / Want More */}
+      <section id="contact" className="contact">
         <div className="container">
-          <div className="footer-links">
-            {socialLinks.map((link) => (
-              <a 
-                key={link.name} 
-                href={link.url} 
-                target="_blank" 
+          <h2>Want More?</h2>
+          <p className="contact-subtitle">Join my network and let's connect</p>
+          <form className="contact-form" onSubmit={e => e.preventDefault()}>
+            <input type="email" placeholder="Your email address" />
+            <button type="submit">Sign Up</button>
+          </form>
+          <div className="contact-social">
+            {socialLinks.map(link => (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
                 rel="noopener noreferrer"
+                className="contact-social-link"
               >
-                {link.name} {link.icon}
+                {link.name} ↗
               </a>
             ))}
           </div>
-          <p className="footer-copyright">
-            © 2026 Pham Doan Duc — Built with React + Lenis
-          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-inner">
+            <span className="footer-brand">DUC<span>.</span>DEV</span>
+            <div className="footer-links">
+              <a href="#about">About</a>
+              <a href="#skills">Skills</a>
+              <a href="#projects">Work</a>
+              <a href="#experience">Experience</a>
+            </div>
+            <div className="footer-social">
+              {socialLinks.map(link => (
+                <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer">
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p className="footer-copyright">© 2026 Pham Doan Duc</p>
+            <div className="footer-built">
+              Built with React + <span>Lenis</span>
+            </div>
+          </div>
         </div>
       </footer>
     </>

@@ -63,152 +63,153 @@ export function useGSAP() {
 export function initAnimations() {
   // Marquee entrance animation
   gsap.from(".marquee-banner", {
-    y: -50,
+    y: -40,
     opacity: 0,
-    duration: 0.8,
+    duration: 0.6,
     ease: "power3.out",
   })
 
-  // Hero entrance animation - bold and dramatic
-  const heroTl = gsap.timeline({ defaults: { ease: "power4.out" } })
+  // Hero: staggered line reveals (Shopify Supply style clip-path)
+  const heroTl = gsap.timeline({ defaults: { ease: "expo.out" } })
 
-  heroTl.from(".hero-text h1", {
-    y: 150,
-    opacity: 0,
-    duration: 1.4,
-    ease: "expo.out",
-  })
-  .from(".hero-text h1 span", {
-    clipPath: "inset(0 100% 0 0)",
-    duration: 1.2,
-    ease: "power4.inOut",
-  }, "-=1")
-  .from(".hero-text .subtitle", {
-    y: 40,
-    opacity: 0,
-    duration: 1,
-  }, "-=0.6")
-  .from(".hero-text .description", {
-    y: 30,
-    opacity: 0,
-    duration: 0.9,
-  }, "-=0.5")
-  .from(".hero-buttons .btn", {
-    y: 20,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.1,
-  }, "-=0.4")
-  .from(".scroll-indicator", {
-    opacity: 0,
-    y: 30,
-    duration: 0.8,
-  }, "-=0.3")
+  heroTl
+    .from(".hero-collection-label", {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+    })
+    .from(".hero-text h1 .line-inner", {
+      y: "110%",
+      duration: 1.2,
+      stagger: 0.12,
+      ease: "expo.out",
+    }, "-=0.4")
+    .from(".hero-meta", {
+      opacity: 0,
+      y: 30,
+      duration: 0.9,
+    }, "-=0.5")
+    .from(".scroll-indicator", {
+      opacity: 0,
+      duration: 0.8,
+    }, "-=0.5")
 
-  // About cards reveal with stagger
+  // About cards — fade up stagger
   gsap.from('.about-card', {
     scrollTrigger: {
       trigger: '.about',
       start: "top 80%",
       toggleActions: "play none none reverse",
     },
-    y: 60,
+    y: 50,
     opacity: 0,
     duration: 0.8,
     stagger: 0.1,
     ease: "power3.out",
   })
 
-  // Skills cards reveal with scale
+  // Skills section title
+  gsap.utils.toArray('.section-title').forEach((title) => {
+    gsap.from(title, {
+      scrollTrigger: {
+        trigger: title,
+        start: "top 88%",
+        toggleActions: "play none none reverse",
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.9,
+      ease: "power3.out",
+    })
+  })
+
+  // Skills cards
   gsap.utils.toArray('.skill-category').forEach((card, i) => {
     gsap.from(card, {
       scrollTrigger: {
         trigger: card,
-        start: "top 85%",
+        start: "top 88%",
         toggleActions: "play none none reverse",
       },
-      y: 80,
+      y: 60,
       opacity: 0,
-      scale: 0.9,
-      duration: 1,
+      duration: 0.8,
       ease: "power3.out",
       delay: i * 0.05,
     })
   })
 
-  // Project cards reveal
+  // Projects header
+  gsap.from('.projects-header', {
+    scrollTrigger: {
+      trigger: '.projects-header',
+      start: "top 85%",
+      toggleActions: "play none none reverse",
+    },
+    y: 40,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power3.out",
+  })
+
+  // Project cards — staggered fade up
   gsap.utils.toArray('.project-card').forEach((card, i) => {
     gsap.from(card, {
       scrollTrigger: {
         trigger: card,
-        start: "top 85%",
+        start: "top 90%",
         toggleActions: "play none none reverse",
       },
-      y: 100,
+      y: 80,
       opacity: 0,
-      duration: 1.2,
+      duration: 1,
       ease: "power3.out",
-      delay: i * 0.1,
+      delay: (i % 3) * 0.08,
     })
   })
 
-  // Experience items reveal with slide
+  // Experience items — slide from left
   gsap.utils.toArray('.experience-item').forEach((item, i) => {
     gsap.from(item, {
       scrollTrigger: {
         trigger: item,
-        start: "top 85%",
+        start: "top 88%",
         toggleActions: "play none none reverse",
       },
-      x: -80,
+      x: -60,
       opacity: 0,
-      duration: 1,
+      duration: 0.9,
       ease: "power3.out",
-      delay: i * 0.15,
+      delay: i * 0.12,
     })
   })
 
-  // Certification badges reveal
+  // Certification badges
   gsap.from('.certification-badge', {
     scrollTrigger: {
       trigger: '.certifications',
       start: "top 90%",
       toggleActions: "play none none reverse",
     },
-    y: 40,
+    y: 30,
     opacity: 0,
-    scale: 0.8,
+    scale: 0.9,
     duration: 0.6,
-    stagger: 0.08,
+    stagger: 0.07,
     ease: "back.out(2)",
   })
 
-  // Section titles reveal
-  gsap.utils.toArray('.section-title').forEach((title) => {
-    gsap.from(title, {
-      scrollTrigger: {
-        trigger: title,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-      },
-      y: 60,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-    })
-  })
-
-  // Footer links reveal
-  gsap.from('.footer-links a', {
+  // Contact section fade up
+  gsap.from('.contact h2, .contact-subtitle, .contact-form, .contact-social', {
     scrollTrigger: {
-      trigger: '.footer',
-      start: "top 90%",
+      trigger: '.contact',
+      start: "top 80%",
       toggleActions: "play none none reverse",
     },
-    y: 30,
+    y: 40,
     opacity: 0,
-    duration: 0.6,
-    stagger: 0.1,
+    duration: 0.8,
+    stagger: 0.12,
     ease: "power3.out",
   })
 
