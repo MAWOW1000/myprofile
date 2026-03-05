@@ -75,6 +75,142 @@ body {
 }
 
 /* ═══════════════════════════════════════════
+   PAGE 3-D DRUM WHEEL
+   ═══════════════════════════════════════════ */
+
+/* Creates window scroll height — GSAP maps this to drum rotation */
+.scroll-driver {
+  height: calc(6 * 100vh);
+  pointer-events: none;
+}
+
+/* Fixed 3-D container — sits above page flow, below navbar (z 99) */
+.page-wheel-stage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  perspective: 1800px;
+  z-index: 2;
+}
+
+/* The drum — GSAP drives rotateX */
+.page-wheel {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Each face of the drum — one per section */
+.page-slide {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Side-nav dots — right edge, vertically centred */
+.page-dots {
+  position: fixed;
+  right: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  z-index: 200;
+}
+
+.page-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, border-color 0.3s, height 0.3s, border-radius 0.3s;
+}
+
+.page-dot.is-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  height: 22px;
+  border-radius: 4px;
+}
+
+/* Ensure sections inside slides fill their slide */
+.page-slide > section,
+.page-slide > div {
+  flex-shrink: 0;
+}
+
+/* The last slide (Contact + Footer) can scroll within itself */
+.page-slide:last-child {
+  overflow-y: auto;
+}
+
+/* ── Slide-scoped section overrides ────────────────────────────
+   Sections were designed for freeflow scroll; these tighten them
+   to fit neatly inside each 100vh fixed drum slice.
+   -------------------------------------------------------------- */
+
+/* All sections inside slides: clear the fixed navbar + compact padding */
+.page-slide section {
+  padding-top: 130px;
+  padding-bottom: clamp(1rem, 2vh, 2rem);
+}
+
+/* Hero manages its own top padding already */
+.page-slide .hero {
+  padding-top: 130px;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+/* MerchantsStrip sits flush below the navbar on slide 1 */
+.page-slide .merchants-strip {
+  margin-top: 120px;
+  flex-shrink: 0;
+}
+/* About on slide 1 fills remaining space */
+.page-slide .merchants-strip ~ .about {
+  flex: 1;
+  padding-top: 1.5rem;
+  overflow: hidden;
+}
+
+/* Compact section titles within slides */
+.page-slide .section-title {
+  margin-bottom: 2rem;
+}
+
+/* Skills grid — allow scrolling within slide if needed */
+.page-slide .skills {
+  flex: 1;
+  overflow: hidden;
+  padding-bottom: 1rem;
+}
+
+/* Projects grid — compact image to fit */
+.page-slide .project-image {
+  aspect-ratio: 3 / 1.4;
+}
+
+/* Experience: fill the slide */
+.page-slide .experience {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
    ANIMATIONS
    ═══════════════════════════════════════════ */
 
@@ -523,7 +659,9 @@ section {
   border-right: 1px solid var(--border);
   padding: 3rem 2rem;
   text-align: left;
-  transition: all var(--transition);
+  transition: background var(--transition), box-shadow var(--transition);
+  will-change: transform;
+  transform-origin: center center;
 }
 
 .about-card:last-child {
@@ -532,8 +670,6 @@ section {
 
 .about-card:hover {
   background: var(--bg-tertiary);
-  transform: none;
-  box-shadow: none;
 }
 
 .about-card .icon {
@@ -593,6 +729,8 @@ section {
   position: relative;
   overflow: hidden;
   transition: background var(--transition);
+  will-change: transform;
+  transform-origin: center center;
 }
 
 .skill-category:last-child {
@@ -705,6 +843,8 @@ section {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  will-change: transform;
+  transform-origin: center center;
 }
 
 .project-card:hover {
@@ -899,6 +1039,105 @@ section {
 .lifestyle-cta:hover {
   opacity: 1;
   color: #fff;
+}
+
+/* ═══════════════════════════════════════════
+   3-D WHEEL SCENE (Projects)
+   ═══════════════════════════════════════════ */
+
+.wheel-scene {
+  height: 72vh;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1400px;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+/* The rotatable drum — GSAP drives rotateY */
+.wheel-stage {
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel {
+  position: relative;
+  width: 380px;
+  height: 500px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Each card is frozen at its wheel position via inline transform */
+.wheel .project-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 500px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  /* override grid-based borders */
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  /* disable tilt on wheel cards */
+  will-change: unset;
+}
+
+/* Progress dots */
+.wheel-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+}
+
+.wheel-dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transition: background 0.35s, width 0.35s, border-radius 0.35s;
+}
+
+.wheel-dot.is-active {
+  background: var(--primary);
+  width: 22px;
+  border-radius: 3px;
+}
+
+/* Fading scroll hint */
+.wheel-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .wheel-scene { height: 68vh; min-height: 480px; }
+  .wheel-stage { transform: scale(0.72); transform-style: preserve-3d; }
+}
+
+@media (max-width: 480px) {
+  .wheel-scene { height: 65vh; min-height: 420px; perspective: 900px; }
+  .wheel-stage { transform: scale(0.55); transform-style: preserve-3d; }
 }
 
 /* ═══════════════════════════════════════════
